@@ -1,6 +1,6 @@
 # npm-deps-parser
 
-Parses, summarizes, and prints "npm audit" json output to markdown for nVision reports. Because neither making sense out of `npm audit` or manually writing markdown tables is fun.
+Parses, summarizes, and prints "npm audit" json output to markdown for nVision reports. Because neither making sense out of `npm audit` nor manually writing markdown tables is fun.
 
 ## Usage
 
