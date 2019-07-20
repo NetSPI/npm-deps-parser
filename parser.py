@@ -20,7 +20,7 @@ def get_root_deps(paths):
 def parse(file_path, cve_only):
     with open(file_path) as json_file:
         npm_json = json.load(json_file)
-    print("| CVE | Dependencies | Module | Title | CVSS 3.0 Score | Info |")
+    print("\n\n| CVE | Module | Dependecy of | Title | CVSS 3.0 Score | Info |")
     print("| --- | --- | --- | --- | --- | --- |")
     for adv in npm_json["advisories"]:
         vuln = npm_json["advisories"][adv]
@@ -29,12 +29,13 @@ def parse(file_path, cve_only):
         deps_str = ", ".join(get_root_deps(paths))
         if len(cves) > 0:
             for cve in cves:
-                print(f"| {cve} | {deps_str} | {vuln['module_name']} | {vuln['title']} | ? | {vuln['url']} |")
+                print(f"| {cve} | {vuln['module_name']} | {deps_str} | " +
+                      f"{vuln['title']} | ? | {vuln['url']} |")
             continue
         if not cve_only and len(cves) is 0:
-            print(f"| N/A | {deps_str}  | {vuln['module_name']} | {vuln['title']} | N/A | {vuln['url']} |")
-        print
-
+            print(f"| N/A | {vuln['module_name']} | {deps_str} | " +
+                 f"{vuln['title']} | N/A | {vuln['url']} |")
+    print("\n")
 
 def main():
     args = get_arguments()
