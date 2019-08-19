@@ -2,7 +2,19 @@
 
 Parses, summarizes, and prints "npm audit" json output to markdown for nVision reports. Because neither making sense out of `npm audit` nor manually writing markdown tables is fun.
 
+## Caveats
+
+Will need to parse the CSV rating or get it from an api.
+
 ## Usage
+
+The fastest way to use the parser is to pass the `npm audit --json` output as stdin. To do so run the following from the folder where the `package.json` file is located:
+
+```shell
+npm audit --json | python3 ~/path/to/npm-vuln-parser/parser.py -i
+```
+
+If you get errors, you can try the below method:
 
 1. From the source code repo, run `npm audit --json > path/to/output_file.json` 
 2. Navigate to this repo, and run `python3 parser.py -f "path/to/output_file.json"`.
