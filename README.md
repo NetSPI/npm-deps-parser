@@ -44,7 +44,7 @@ results in:
 | CVE-2019-10744 | lodash | @redux-offline/redux-offline, aws-appsync, lint-staged, react-scripts | Prototype Pollution | ? | https://npmjs.com/advisories/1065 |
 
 ```shell
-$ python3 parser.py -f "../../../Assesments/client/vuln_code.json"
+$ python3 parser.py -f "../../../Assesments/client/vuln_code.json" --cves-only
 ```
 
 results in:
