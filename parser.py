@@ -14,11 +14,14 @@ def get_arguments():
 
 def get_root_deps(paths):
     deps = []
+    depths = []
     for d in paths:
-        root = d.split(">",1)[0]
+        libs = d.split(">")
+        root = libs[0] 
+        depths.append(len(libs))
         if root not in deps:
             deps.append(root)
-    return deps
+    return deps, str(max(depths))
 
 def parse(stdin=False, file_path="", cve_only=False):
     if stdin:
@@ -32,21 +35,22 @@ def parse(stdin=False, file_path="", cve_only=False):
         print("[-] You must specify a path or pass json via stdin using -i")
 
 def process_json(npm_json, cve_only=False):
-    print("\n\n| CVE | Module | Dependecy of | Title | CVSS 3.0 Score | Info |")
-    print("| --- | --- | --- | --- | --- | --- |")
+    print("\n\n| CVE | Module | Dependecy of | Depth |  Title | CVSS 3.0 Score | Info |")
+    print("| --- | --- | --- | --- | --- | --- | --- |")
     for adv in npm_json["advisories"]:
         vuln = npm_json["advisories"][adv]
         cves = vuln["cves"]
         paths = vuln["findings"][0]["paths"]
-        deps_str = ", ".join(get_root_deps(paths))
+        deps,depth = get_root_deps(paths)
+        deps_str = ", ".join(deps)
         if len(cves) > 0:
             for cve in cves:
-                print(f"| {cve} | {vuln['module_name']} | {deps_str} | " +
-                      f"{vuln['title']} | ? | {vuln['url']} |")
+                print(f"| {cve} | {vuln['module_name']} | {deps_str} | {depth} |" 
+                      +f" {vuln['title']} | ? | {vuln['url']} |")
             continue
         if not cve_only and len(cves) is 0:
-            print(f"| N/A | {vuln['module_name']} | {deps_str} | " +
-                 f"{vuln['title']} | N/A | {vuln['url']} |")
+            print(f"| N/A | {vuln['module_name']} | {deps_str} | {depth} |" +
+                 f" {vuln['title']} | N/A | {vuln['url']} |")
     print("\n")
 
 def main():
