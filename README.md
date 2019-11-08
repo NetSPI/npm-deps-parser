@@ -32,7 +32,7 @@ $ python3 parser.py -f "../../../Assesments/client/vuln_code.json"
 
 results in:
 
-| CVE | Module | Dependecy of | Title | CVSS 3.0 Score | Info |
+| CVE | Module | Dependency of | Title | CVSS 3.0 Score | Info |
 | --- | --- | --- | --- | --- | --- |
 | N/A | handlebars | react-scripts | Prototype Pollution | N/A | https://npmjs.com/advisories/755 |
 | CVE-2019-10746 | mixin-deep | lint-staged, react-scripts | Prototype Pollution | ? | https://npmjs.com/advisories/1013 |
@@ -44,10 +44,11 @@ $ python3 parser.py -f "../../../Assesments/client/vuln_code.json" --cves-only
 
 results in:
 
-| CVE | Module | Dependecy of | Title | CVSS 3.0 Score | Info |
+| CVE | Module | Dependency of | Title | CVSS 3.0 Score | Info |
 | --- | --- | --- | --- | --- | --- |
 | CVE-2019-10747 | set-value | lint-staged, react-scripts | Prototype Pollution | ? | https://npmjs.com/advisories/1012 |
 | CVE-2019-10746 | mixin-deep | lint-staged, react-scripts | Prototype Pollution | ? | https://npmjs.com/advisories/1013 |
 
 
+You can also display the max depth for the reported vulnerabilities using the `-d` flag.
 
