@@ -52,3 +52,11 @@ results in:
 
 You can also display the max depth for the reported vulnerabilities using the `-d` flag.
 
+Utilizing the `-af` flag will format the table for Atlassian products such as JIRA or Confluence.
+
+```
+|| CVE || Module || Dependency of || Title || CVSS 3.0 Score || Info ||
+| CVE-2019-10747 | set-value | lint-staged, react-scripts | Prototype Pollution | ? | https://npmjs.com/advisories/1012 |
+| CVE-2019-10746 | mixin-deep | lint-staged, react-scripts | Prototype Pollution | ? | https://npmjs.com/advisories/1013 |
+```
+
