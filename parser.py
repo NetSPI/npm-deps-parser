@@ -11,6 +11,7 @@ def get_arguments():
     parser.add_argument("-d", dest="show_depth", help="include depth in the output",
                         action="store_true")
     parser.add_argument("-f", "--file", help="Path for json file")
+    parser.add_argument("-af", "--atlassian-format", help="Format table for Atlassian products", dest="atlassian_format", action="store_true")
     args = parser.parse_args()
     return args
 
@@ -25,24 +26,31 @@ def get_root_deps(paths):
             deps.append(root)
     return deps, str(max(depths))
 
-def parse(stdin=False, file_path="", cve_only=False, show_depth=False):
+def parse(stdin=False, file_path="", cve_only=False, show_depth=False, atlassian_format=False):
     if stdin:
         npm_json = json.load(sys.stdin)
-        process_json(npm_json, cve_only=cve_only, show_depth=show_depth)
+        process_json(npm_json, cve_only=cve_only, show_depth=show_depth, atlassian_format=atlassian_format)
     elif file_path is not "":
         with open(file_path) as json_file:
             npm_json = json.load(json_file)
-        process_json(npm_json, cve_only=cve_only, show_depth=show_depth)
+        process_json(npm_json, cve_only=cve_only, show_depth=show_depth, atlassian_format=atlassian_format)
     else:
         print("[-] You must specify a path or pass json via stdin using -i")
 
-def process_json(npm_json, cve_only=False, show_depth=False):
+def process_json(npm_json, cve_only=False, show_depth=False, atlassian_format=False):
+    print(atlassian_format)
     if show_depth:
-        print("\n\n| CVE | Module | Dependency of | Depth |  Title | CVSS 3.0 Score | Info |")
-        print("| --- | --- | --- | --- | --- | --- | --- |")
+        if atlassian_format:
+            print("\n\n|| CVE || Module || Dependency of || Depth ||  Title || CVSS 3.0 Score || Info ||")
+        else:
+            print("\n\n| CVE | Module | Dependency of | Depth |  Title | CVSS 3.0 Score | Info |")
+            print("| --- | --- | --- | --- | --- | --- | --- |")
     else:
-        print("\n\n| CVE | Module | Dependency of | Title | CVSS 3.0 Score | Info |")
-        print("| --- | --- | --- | --- | --- | --- |")
+        if atlassian_format:
+            print("\n\n|| CVE || Module || Dependency of || Depth ||  Title || CVSS 3.0 Score || Info ||")
+        else:
+            print("\n\n| CVE | Module | Dependency of | Depth |  Title | CVSS 3.0 Score | Info |")
+            print("| --- | --- | --- | --- | --- | --- | --- |")
     for adv in npm_json["advisories"]:
         vuln = npm_json["advisories"][adv]
         cves = vuln["cves"]
@@ -69,7 +77,7 @@ def process_json(npm_json, cve_only=False, show_depth=False):
 
 def main():
     args = get_arguments()
-    parse(stdin=args.stdin ,file_path=args.file, cve_only=args.cve_only, show_depth=args.show_depth)
+    parse(stdin=args.stdin ,file_path=args.file, cve_only=args.cve_only, show_depth=args.show_depth, atlassian_format=args.atlassian_format)
 
 if __name__ == "__main__":
     main()
